@@ -1,10 +1,10 @@
 {
-  "name": "@mertsolak/react-drag-drop",
+  "name": "@mertsolak/react-drop-zone",
   "version": "1.0.0",
   "main": "dist/index.js",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/mert-solak/react-drag-drop.git"
+    "url": "https://github.com/mert-solak/react-drop-zone.git"
   },
   "scripts": {
     "build": "rollup -c",
@@ -12,8 +12,11 @@
     "release": "standard-version",
     "lint": "eslint \"{src/**/*.ts, src/**/*.tsx}\""
   },
-  "dependencies": {},
+  "dependencies": {
+    "@mertsolak/file-helper": "^1.0.0"
+  },
   "devDependencies": {
+    "@types/react": "^17.0.36",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
     "commitizen": "^4.2.2",
@@ -26,6 +29,11 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "ghooks": "^2.0.4",
     "rollup": "^2.36.1",
+    "sass": "1.32.0",
+    "sass-loader": "10.1.0",
+    "style-loader": "2.0.0",
+    "css-loader": "5.0.1",
+    "rollup-plugin-postcss": "4.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.29.0",
     "standard-version": "^9.3.0",
