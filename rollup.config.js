@@ -1,5 +1,6 @@
 import typescript from 'rollup-plugin-typescript2';
 import external from 'rollup-plugin-peer-deps-external';
+import postcss from 'rollup-plugin-postcss';
 import packageJSON from './package.json';
 
 export default {
@@ -13,6 +14,13 @@ export default {
       strict: false,
     },
   ],
-  plugins: [external(), typescript({ objectHashIgnoreUnknownHack: true, exclude: 'node_modules/**' })],
+  plugins: [
+    postcss({
+      extract: false,
+      modules: true,
+    }),
+    external(),
+    typescript({ objectHashIgnoreUnknownHack: true, exclude: 'node_modules/**' }),
+  ],
   external: [packageJSON.peerDependencies || {}],
 };
