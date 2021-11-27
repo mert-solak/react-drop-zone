@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { convertFileToBase64 } from '@mertsolak/file-helper';
 
 import { DropZoneHookReturns, DropZoneHookProps, Control } from '../definitions';
+import { variableHelper, acceptHelper } from '../helpers';
 
 /**
  * It gives ready to use states if control
@@ -61,17 +62,28 @@ export const useDropZone = <T extends DropZoneHookProps>(
    */
   const handleOnDrop = useCallback<Control['onDrop']>(
     (event, accept, multiple) => {
+      const extendedAccept = acceptHelper.extend(accept);
       setFileInDropZone(false);
 
       const eventFiles = event.dataTransfer.files;
       const newDataTransfer = new DataTransfer();
 
       Object.values(eventFiles).some((file) => {
-        if (accept.includes(`.${file.name.split('.').pop().toLowerCase()}`)) {
+        const confirmFile = () => {
           newDataTransfer.items.add(file);
           if (!multiple) {
             return true;
           }
+
+          return false;
+        };
+
+        if (!variableHelper.isDefined(extendedAccept)) {
+          return confirmFile();
+        }
+
+        if (extendedAccept.includes(`.${file.type.split('/').pop()}`)) {
+          return confirmFile();
         }
 
         return false;

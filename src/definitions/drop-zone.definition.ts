@@ -10,18 +10,12 @@ export interface Control {
   fileInDropZone: boolean;
 }
 
-export interface ButtonComponentProps {
-  onClick: () => void;
-}
-
 export interface ComponentProps extends Omit<Control, 'fileInDropZone'> {
   accept?: Accept | undefined;
   multiple?: boolean | undefined;
   control?: Control | undefined;
   className?: string | undefined;
-  buttonClassName?: string | undefined;
-  contentClassName?: string | undefined;
-  buttonComponent?: React.FunctionComponent<ButtonComponentProps> | undefined;
+  buttonComponent?: React.FunctionComponent | undefined;
   contentComponent?: React.FunctionComponent | undefined;
 }
 
