@@ -14,8 +14,6 @@ import styles from './drop-zone.module.scss';
  */
 export const DropZone: React.FC<ComponentProps> = ({
   className,
-  buttonClassName,
-  contentClassName,
   buttonComponent: ButtonComponentParam,
   contentComponent: ContentComponentParam,
   accept,
@@ -116,23 +114,17 @@ export const DropZone: React.FC<ComponentProps> = ({
   }, [inputRef.current]);
 
   /**
-   * It decides for the button component and
-   * assigns onClick method to it
+   * It decides for the button component
    * @returns React.ReactNode
    */
   const ButtonComponent = useCallback(
     () =>
       variableHelper.isDefined(ButtonComponentParam) ? (
-        <ButtonComponentParam onClick={handleOnClickButton} />
+        <ButtonComponentParam />
       ) : (
-        <button
-          className={attributeHelper.mergeClassNames(styles.button, buttonClassName)}
-          onClick={handleOnClickButton}
-        >
-          Click to Upload
-        </button>
+        <button className={styles.button}>Click to Upload</button>
       ),
-    [ButtonComponentParam, buttonClassName, handleOnClickButton],
+    [ButtonComponentParam, handleOnClickButton],
   );
 
   /**
@@ -150,7 +142,7 @@ export const DropZone: React.FC<ComponentProps> = ({
             control?.fileInDropZone,
             2,
             styles.contentContainer,
-            contentClassName,
+            className,
             styles.fileInDropZone,
           )}
         >
@@ -158,12 +150,12 @@ export const DropZone: React.FC<ComponentProps> = ({
           <p className={styles.text}>or</p>
         </div>
       ),
-    [ContentComponentParam, contentClassName, control?.fileInDropZone],
+    [ContentComponentParam, className, control?.fileInDropZone],
   );
 
   return (
     <div
-      className={attributeHelper.mergeClassNames(styles.container, className)}
+      className={styles.container}
       onDragOver={handleOnDragOver}
       onDrop={handleOnDrop}
       onDragEnter={handleOnDragEnter}
@@ -171,14 +163,24 @@ export const DropZone: React.FC<ComponentProps> = ({
     >
       <input
         className={styles.input}
+        onChange={handleOnChangeInput}
         ref={inputRef}
         multiple={multiple}
         accept={accept?.join(',')}
         type="file"
-        onChange={handleOnChangeInput}
       />
-      <ButtonComponent />
-      <ContentComponent />
+      <div
+        className={styles.buttonWrapper}
+        onKeyDown={handleOnClickButton}
+        onClick={handleOnClickButton}
+        role="button"
+        tabIndex={-1}
+      >
+        <ButtonComponent />
+      </div>
+      <div className={styles.contentWrapper}>
+        <ContentComponent />
+      </div>
     </div>
   );
 };
