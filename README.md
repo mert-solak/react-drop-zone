@@ -29,7 +29,7 @@ const App = () => {
   const { files, control, fileList, totalFileSize, fileInDropZone } = useDropZone({ getFilesAs: 'base64' });
 
   // default components can be overwritten with buttonComponent
-  // and contentComponent or their styles can be updated via classNames
+  // and contentComponent or container style can be updated via className
   return <DropZone multiple accept={['.png']} control={control} />;
 };
 ```
