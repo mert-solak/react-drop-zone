@@ -122,6 +122,15 @@ export const useDropZone = <T extends DropZoneHookProps>(
   }, []);
 
   /**
+   * it resets all file related states
+   */
+  const reset = () => {
+    setTotalFileSize(null);
+    setFileList(null);
+    setFiles(null);
+  };
+
+  /**
    * control object that controls dropZoneComponent to process
    * inputs for the ready to use outputs
    */
@@ -136,5 +145,5 @@ export const useDropZone = <T extends DropZoneHookProps>(
     [handleOnDrop, handleOnChange, handleOnDragEnter, handleOnDragLeave, fileInDropZone],
   );
 
-  return { control, files, fileList, totalFileSize, fileInDropZone };
+  return { control, files, fileList, totalFileSize, fileInDropZone, reset };
 };

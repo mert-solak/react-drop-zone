@@ -11,6 +11,7 @@ export interface Control {
 }
 
 export interface ComponentProps extends Omit<Control, 'fileInDropZone'> {
+  fullWidth?: boolean | undefined;
   accept?: Accept | undefined;
   multiple?: boolean | undefined;
   control?: Control | undefined;
@@ -31,4 +32,5 @@ export interface DropZoneHookReturns<T extends DropZoneHookProps> {
   fileList: FileList;
   totalFileSize: number;
   fileInDropZone: boolean;
+  reset: () => void;
 }

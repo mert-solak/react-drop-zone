@@ -19,6 +19,7 @@ export const DropZone: React.FC<ComponentProps> = ({
   accept,
   multiple,
   control,
+  fullWidth,
   onDrop,
   onChange,
   onDragEnter,
@@ -120,7 +121,7 @@ export const DropZone: React.FC<ComponentProps> = ({
   const ButtonComponent = useCallback(
     () =>
       variableHelper.isDefined(ButtonComponentParam) ? (
-        <ButtonComponentParam />
+        <>{ButtonComponentParam}</>
       ) : (
         <button className={styles.button}>Click to Upload</button>
       ),
@@ -135,7 +136,7 @@ export const DropZone: React.FC<ComponentProps> = ({
   const ContentComponent = useCallback(
     () =>
       ContentComponentParam ? (
-        <ContentComponentParam />
+        <>{ContentComponentParam}</>
       ) : (
         <div
           className={attributeHelper.shouldMergeClassNames(
@@ -145,12 +146,13 @@ export const DropZone: React.FC<ComponentProps> = ({
             className,
             styles.fileInDropZone,
           )}
+          style={fullWidth && { width: '100%' }}
         >
           <p className={styles.text}>Drop files here</p>
           <p className={styles.text}>or</p>
         </div>
       ),
-    [ContentComponentParam, className, control?.fileInDropZone],
+    [ContentComponentParam, className, fullWidth, control?.fileInDropZone],
   );
 
   return (
@@ -160,6 +162,7 @@ export const DropZone: React.FC<ComponentProps> = ({
       onDrop={handleOnDrop}
       onDragEnter={handleOnDragEnter}
       onDragLeave={handleOnDragLeave}
+      style={fullWidth && { width: '100%' }}
     >
       <input
         className={styles.input}
