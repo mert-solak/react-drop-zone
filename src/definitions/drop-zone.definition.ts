@@ -26,6 +26,10 @@ export interface DropZoneHookProps {
   getFilesAs: GetFilesAs;
 }
 
+export interface Errors {
+  invalidFormat: boolean;
+}
+
 export interface DropZoneHookReturns<T extends DropZoneHookProps> {
   control: Control;
   files: (T['getFilesAs'] extends 'base64' ? string : File)[];
@@ -33,4 +37,5 @@ export interface DropZoneHookReturns<T extends DropZoneHookProps> {
   totalFileSize: number;
   fileInDropZone: boolean;
   reset: () => void;
+  errors: Errors;
 }

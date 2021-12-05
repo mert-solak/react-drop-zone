@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { convertFileToBase64 } from '@mertsolak/file-helper';
 
-import { DropZoneHookReturns, DropZoneHookProps, Control } from '../definitions';
+import { DropZoneHookReturns, DropZoneHookProps, Control, Errors } from '../definitions';
 import { variableHelper, acceptHelper } from '../helpers';
 
 /**
@@ -18,6 +18,7 @@ export const useDropZone = <T extends DropZoneHookProps>(
   const [totalFileSize, setTotalFileSize] = useState<DropZoneHookReturns<T>['totalFileSize']>();
   const [fileList, setFileList] = useState<DropZoneHookReturns<T>['fileList']>();
   const [files, setFiles] = useState<DropZoneHookReturns<T>['files']>();
+  const [errors, setErrors] = useState<Errors>({ invalidFormat: false });
 
   /** It sets file related states and converts files if needed
    * @param eventFileList @type FileList
@@ -64,6 +65,7 @@ export const useDropZone = <T extends DropZoneHookProps>(
     (event, accept, multiple) => {
       const extendedAccept = acceptHelper.extend(accept);
       setFileInDropZone(false);
+      setErrors({ ...errors, invalidFormat: false });
 
       const eventFiles = event.dataTransfer.files;
       const newDataTransfer = new DataTransfer();
@@ -82,7 +84,10 @@ export const useDropZone = <T extends DropZoneHookProps>(
           return confirmFile();
         }
 
-        if (extendedAccept.includes(`.${file.type.split('/').pop()}`)) {
+        if (
+          extendedAccept.includes(`.${file.type.split('/').pop()}`) ||
+          extendedAccept.includes(`.${file.name.split('.').pop()}`)
+        ) {
           return confirmFile();
         }
 
@@ -125,6 +130,7 @@ export const useDropZone = <T extends DropZoneHookProps>(
    * it resets all file related states
    */
   const reset = () => {
+    setErrors({ invalidFormat: false });
     setTotalFileSize(null);
     setFileList(null);
     setFiles(null);
@@ -145,5 +151,13 @@ export const useDropZone = <T extends DropZoneHookProps>(
     [handleOnDrop, handleOnChange, handleOnDragEnter, handleOnDragLeave, fileInDropZone],
   );
 
-  return { control, files, fileList, totalFileSize, fileInDropZone, reset };
+  useEffect(() => {
+    if (files?.length > 0) {
+      return;
+    }
+
+    setErrors({ ...errors, invalidFormat: true });
+  }, [files]);
+
+  return { control, files, fileList, totalFileSize, fileInDropZone, errors, reset };
 };
