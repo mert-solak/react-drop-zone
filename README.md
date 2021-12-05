@@ -26,7 +26,9 @@ const App = () => {
   // fileList is the original list that comes from event
   // control needs to be given to the component to get updated states
   // 'File' is the default value for the getFilesAs, if it is not provided
-  const { files, control, fileList, totalFileSize, fileInDropZone } = useDropZone({ getFilesAs: 'base64' });
+  const { files, control, fileList, totalFileSize, errors, fileInDropZone } = useDropZone({
+    getFilesAs: 'base64',
+  });
 
   // default components can be overwritten with buttonComponent
   // and contentComponent or container style can be updated via className
